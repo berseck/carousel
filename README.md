@@ -4,7 +4,7 @@
 This carousel was made to easy slide between images with the capability of changing how many slides you want to move and how many you want to view at time
 
 ### Basic Usage
-´´´
+```javascript
 $(document).ready(function(){ 
 	var config = { 
 		id:'#slideshow',
@@ -15,7 +15,7 @@ $(document).ready(function(){
 	cycle = new myCycle(config);
 	cycle.init();
 });
-´´´
+```
 
 
 ## Browser Compatibility
