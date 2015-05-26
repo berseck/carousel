@@ -38,23 +38,19 @@
     myCycle.prototype = {
         init: function () {
             $(this.config.id).find(this.config.slides).wrapAll("<div class='"+this.config.fx+"'></div>");
-            
             $(this.config.id).css({
                 position    :   'relative',
                 overflow    :   'hidden',
                 width       :   slidesNum * parseInt(slidesWidth),
                 height      :   fxHeight
             });
+			$(fx).css({ width:fxWidth, position: 'absolute', left: 0, top: 0 });
+			
             this.addCallback('updateSlides', this.updateSlides, true);
             this.addCallback('beforeSlide', this.beforeSlide, true);
-            
-            $(fx).css({ width:fxWidth, position: 'absolute', left: 0, top: 0 });
+			
             $(this.config.next).on('click', this.next);
             $(this.config.prev).on('click', this.prev);
-            
-            if(this.config.pager !== '') {
-                this.createPagerMenu();
-            }
             
             $(fx).css({
                 "-o-transition"         : "left "+this.config.timeout+"ms linear",
@@ -62,16 +58,44 @@
                 "-webkit-transition"    : "left "+this.config.timeout+"ms linear",
                 "transition"            : "left "+this.config.timeout+"ms linear"
             })
-            
-            _self.doCallback('beforeSlide');
-            _self.doCallback('updateSlides');
+			
+			
+			$(fx+' '+this.config.slides).each(function(i, e){
+				$(e).load(function(){
+					if(i == _self.config.visible) {
+						_self.slidesLoaded();
+					}
+				})
+			})
+			
         },
+		slidesLoaded: function(){
+			slidesWidth = (this.config.width !== '') ? parseInt(this.config.width) : parseInt($(fx+' '+this.config.slides).eq(0).innerWidth()); 
+			slidesHeight = (this.config.height !== '') ? parseInt(this.config.height) : $(fx+' '+this.config.slides).eq(0).innerHeight();
+			total = $(fx+' '+this.config.slides).length;
+			
+			$(this.config.id).css({
+                position    :   'relative',
+                overflow    :   'hidden',
+                width       :   this.config.visible * parseInt(slidesWidth),
+                height      :   slidesHeight
+            });
+			$(fx).css({ width: total * parseInt(slidesWidth), position: 'absolute', left: 0, top: 0 });
+			
+			if(this.config.pager !== '') {
+                this.createPagerMenu();
+            }
+			
+			_self.doCallback('beforeSlide');
+            _self.doCallback('updateSlides');
+		},
         next: function(e){
             direction = 'right';
             _self.doCallback('beforeSlide');
             var left = $(fx).position().left;
-            var max = ($(fx).width() - slidesWidth * slidesNum) * -1;
+            var max = -($(fx).width() - slidesWidth * slidesNum);
             var toMove = slidesWidth * slidesToMove;
+
             if(left > max){
                 if(isAnimating === false){
                     isAnimating = true;
