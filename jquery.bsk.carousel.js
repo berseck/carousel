@@ -1,3 +1,6 @@
+/**
+ * author Thiago de Oliveira Cruz
+ */
 (function ($) {
     var defaults = {
         id              :   '.mycycle',
