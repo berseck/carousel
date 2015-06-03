@@ -9,22 +9,38 @@
             var cycle = null;
             $(document).ready(function () {
                 var config = { 
-                    id:'.slideshow',
-                    next: '#next',
-                    prev: '#prev',
-                    pager: '#pager',
+                    next: '#firstCarousel .next',
+                    prev: '#firstCarousel .prev',
+                    pager: '#firstCarousel .pager',
+                    slides: 'li',
                     pagerClicable: true,
                     visible: 3,
                     slidesPerMove: 3,
                     timeout: 600
                 }
-                cycle = new myCycle(config);
-                cycle.init();
+                $('#firstCarousel .slideshow > ul').Carousel(config);
+                
+                var config2 = { 
+                    next: '#secondCarousel .next',
+                    prev: '#secondCarousel .prev',
+                    pager: '#secondCarousel .pager',
+                    slides: ' > img',
+                    pagerClicable: true,
+                    visible: 3,
+                    slidesPerMove: 3,
+                    timeout: 600
+                }
+                $('#secondCarousel .slideshow').Carousel(config2);
             });
         </script>
         <style type="text/css">
-            #pager { margin: 20px 0 0;} 
-            #pager .slideBullet {
+            #firstCarousel, #secondCarousel {
+                display: block;
+                width: 100%;
+                margin: 100px 0;
+            }
+            .pager { margin: 20px 0 0;} 
+            .pager .slideBullet {
                 padding: 3px;
                 display: inline-block;
                 margin: 0 3px;
@@ -37,31 +53,70 @@
                 text-indent: -9999px;
                 cursor:pointer;
             }
-            #pager .slideBullet.selected {
+            .pager .slideBullet.selected {
                 background: #ffcc00;
             }
-            
-            .slideshow img {
-                padding-right: 5px;
+            .slideshow ul {
+                padding: 0;
+                margin: 0;
             }
+            
+            .slideshow li{
+                padding-right: 5px;
+                margin: 0;
+                width: 294px;
+                height: 168px;
+                display: block;
+                float: left;
+                list-style: none;
+            }
+			.slideshow img {
+				padding-right: 5px;
+				width: 294px;
+				height: 168px;
+				display: block;
+				float:left;
+			}
         </style>
     </head>
     <body>
-        <div class="slideshow">
-            <img src="http://lorempixel.com/294/168/cats/1" alt="" />
-            <img src="http://lorempixel.com/294/168/cats/2" alt="" />
-            <img src="http://lorempixel.com/294/168/cats/3" alt="" />
-			<img src="http://lorempixel.com/294/168/cats/4" alt="" />
-			<img src="http://lorempixel.com/294/168/cats/5" alt="" />
-			<img src="http://lorempixel.com/294/168/cats/6" alt="" />
-			<img src="http://lorempixel.com/294/168/cats/7" alt="" />
-			<img src="http://lorempixel.com/294/168/cats/8" alt="" />
-        </div>
-        <div class=center>
-            <a href=# id="prev">&lt;&lt; Prev </a>
-            <a href=# id="next"> Next &gt;&gt; </a>
-        </div>
+        <div id="firstCarousel">
+            <div class="slideshow">
+                <ul>
+                    <li><img src="http://lorempixel.com/294/168/city/1" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/2" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/3" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/4" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/5" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/6" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/7" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/8" alt="" /></li>
+                </ul>
+            </div>
+            <div class=center>
+                <a href="javascript://" class="prev">&lt;&lt; Prev </a>
+                <a href="javascript://" class="next"> Next &gt;&gt; </a>
+            </div>
 
-        <div class="cycle-pager" id="pager"></div>
+            <div class="pager"></div>
+        </div>
+        <div id="secondCarousel">
+            <div class="slideshow">
+                <img src="http://lorempixel.com/294/168/cats/1" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/2" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/3" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/4" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/5" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/6" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/7" alt="" />
+				<img src="http://lorempixel.com/294/168/cats/8" alt="" />
+            </div>
+            <div class=center>
+                <a href="javascript://" class="prev">&lt;&lt; Prev </a>
+                <a href="javascript://" class="next"> Next &gt;&gt; </a>
+            </div>
+
+            <div class="pager"></div>
+        </div>
     </body>
 </html>
