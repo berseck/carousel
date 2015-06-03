@@ -7,13 +7,11 @@ This carousel was made to easy slide between images with the capability of chang
 ```javascript
 $(document).ready(function(){ 
 	var config = { 
-		id:'#slideshow',
 		visible: 3,
 		slidesPerMove: 3,
 		timeout: 500
 	}
-	cycle = new myCycle(config);
-	cycle.init();
+	$("#slideshow").Carousel(config);
 });
 ```
 
