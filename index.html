@@ -14,11 +14,11 @@
                     pager: '#firstCarousel .pager',
                     slides: 'li',
                     pagerClicable: true,
-                    visible: 3,
-                    slidesPerMove: 3,
+                    visible: 4,
+                    slidesPerMove: 4,
                     timeout: 600
                 }
-                $('#firstCarousel .slideshow > ul').Carousel(config);
+                $('body > #firstCarousel > .slideshow > ul').Carousel(config);
                 
                 var config2 = { 
                     next: '#secondCarousel .next',
@@ -89,8 +89,8 @@
                     <li><img src="http://lorempixel.com/294/168/city/4" alt="" /></li>
                     <li><img src="http://lorempixel.com/294/168/city/5" alt="" /></li>
                     <li><img src="http://lorempixel.com/294/168/city/6" alt="" /></li>
-                    <li><img src="http://lorempixel.com/294/168/city/7" alt="" /></li>
-                    <li><img src="http://lorempixel.com/294/168/city/8" alt="" /></li>
+                    <!--<li><img src="http://lorempixel.com/294/168/city/7" alt="" /></li>
+                    <li><img src="http://lorempixel.com/294/168/city/8" alt="" /></li>-->
                 </ul>
             </div>
             <div class=center>
@@ -100,6 +100,7 @@
 
             <div class="pager"></div>
         </div>
+
         <div id="secondCarousel">
             <div class="slideshow">
                 <img src="http://lorempixel.com/294/168/cats/1" alt="" />
