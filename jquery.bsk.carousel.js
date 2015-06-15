@@ -20,13 +20,13 @@
         currentSlider: 0
     };
 
-    var fxWidth = new Number();
-    var fxHeight = new Number();
-    var fx = new Number();
+    var fxWidth = Number();
+    var fxHeight = Number();
+    var fx = Number();
     var isAnimating = false;
     var direction = null;
     var hasLoaded = false;
-    var timeout = new Number();
+    var timeout = 0;
     var _self;
 
     $.fn.Carousel = function (o) {
@@ -56,20 +56,19 @@
     }
 
     function init(element) {
-        element.config.id = $(element).selector;
-        if($(element).selector.indexOf('>') > -1) element.config.id = $($(element).selector.split('>')[0]).find($(element).selector.split('>')[1]).eq(0);        
-        element.config.slidesNum = (element.config.visible) ? element.config.visible : $(element.config.id).find(element.config.slides).length;
+        element.config.id = element;
+        element.config.slidesNum = (element.config.visible) ? element.config.visible : element.find(element.config.slides).length;
         element.config.width = parseInt((element.config.width !== '') ? element.config.width : $(element.config.id).find(element.config.slides).eq(0).innerWidth());
-		element.config.total = $(element.config.id).find(element.config.slides).length;
-        fxWidth = (element.config.width !== '') ? parseInt(element.config.width) * $(element.config.id).find(element.config.slides).length : parseInt($(element.config.id).find(element.config.slides).eq(0).innerWidth() * $(element.config.id).find(element.config.slides).length);
-        element.config.height = fxHeight = $(element.config.id).find(element.config.slides).eq(0).innerHeight();
+		element.config.total = element.find(element.config.slides).length;
+        fxWidth = (element.config.width !== '') ? parseInt(element.config.width) * $(element.config.id).find(element.config.slides).length : parseInt(element.find(element.config.slides).eq(0).innerWidth() * element.find(element.config.slides).length);
+        element.config.height = fxHeight = element.find(element.config.slides).eq(0).innerHeight();
         fx = '.' + element.config.fx;
         timeout = element.config.timeout;
         
     	element.config.carousel = $("<div class='" + element.config.fx + "'></div>");
-    	var parent = $(element.config.id).parent();
+    	var parent = element.parent();
     	$(parent).prepend(element.config.carousel);
-    	$(element.config.carousel).prepend($(element.config.id));
+    	$(element.config.carousel).prepend(element);
 
         $(element.config.carousel).css({
             position: 'relative',
@@ -77,7 +76,7 @@
             width: element.config.slidesNum * parseInt(element.config.width),
             height: fxHeight
         });
-        $(element.config.id).css({width: fxWidth, position: 'absolute', left: 0, top: 0});
+        element.css({width: fxWidth, position: 'absolute', left: 0, top: 0});
 
 
         $(element.config.next).on('click', function(e){
@@ -89,10 +88,10 @@
             prev(element);
         });
 
-        $(element.config.id).css({
-            "-o-transition": "left " + timeout + "ms linear",
-            "-moz-transition": "left " + timeout + "ms linear",
-            "-webkit-transition": "left " + timeout + "ms linear",
+        element.css({
+            "-o-transition": "left " + element.config.timeout + "ms linear",
+            "-moz-transition": "left " + element.config.timeout + "ms linear",
+            "-webkit-transition": "left " + element.config.timeout + "ms linear",
             "transition": "left " + timeout + "ms linear"
         });
 
@@ -120,7 +119,6 @@
         beforeSlide(element);
         var left = $(element.config.id).position().left;
         var max = -($(element.config.id).width() - element.config.width * element.config.slidesNum);
-        var toMove = element.config.width * element.config.slidesToMove;
         if (left > max) {
             if (isAnimating === false) {
                 isAnimating = true;
@@ -139,6 +137,7 @@
         direction = 'left';
         beforeSlide(element);
         var left = $(element.config.id).position().left;
+
         if (left < 0) {
             if (isAnimating === false) {
                 isAnimating = true;
@@ -180,14 +179,6 @@
                 element.config.slidesToMove = element.config.slidesPerMove;
             }
         }
-        
-        timeout = (element.config.timeout / element.config.visible) * element.config.slidesToMove;
-        $(element.config.id).css({
-            "-o-transition": "left " + timeout + "ms linear",
-            "-moz-transition": "left " + timeout + "ms linear",
-            "-webkit-transition": "left " + timeout + "ms linear",
-            "transition": "left " + timeout + "ms linear"
-        });
     }
     function createPagerMenu(element) {
         var items = $(element.config.id).find(element.config.slides).length;
@@ -212,10 +203,8 @@
                     var toMove = 0;
                     if (items % element.config.visible > 0 && $(this).index() === (total - 1)) {
                         var resto = items % element.config.visible;
-                        if (resto === 1)
-                            resto = items - element.config.visible;
-                        else
-                            resto = (items - resto - 1);
+                        if (resto === 1) resto = items - element.config.visible;
+                        else resto = items - element.config.visible;
                         toMove = -(element.config.width * resto);
                     } else {
                         toMove = -(element.config.width * (element.config.slidesPerMove * $(this).index()));
@@ -227,7 +216,7 @@
                     setTimeout(function () {
                         isAnimating = false;
                         updateSlides(element);
-                    }, timeout + 50);
+                    }, timeout + 100);
                 }
             });
         }
